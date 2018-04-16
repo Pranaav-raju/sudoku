@@ -8,4 +8,7 @@
             <input type="text" name="row1">
             <p><input type="submit" value="Submit"></p>
         </form>
+        {% if output is defined %}
+            <p>{{ output }}</p>
+        {% endif %}
     </body>
