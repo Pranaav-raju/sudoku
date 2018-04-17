@@ -10,13 +10,15 @@ def index():
     if not request.args:
         print "Didn't find a request."
     row1 = request.args.get('row1', '')
-    row1 += "0" * 72
-    try:
-        board_array = board.Board.string_to_array(row1)
-    except ValueError:
-        error = "Board {} is not 81 characters.".format(row1)
-        print error
-        return render_template('grid.html', error=error)
+    boardstring = ""
+    for row in xrange(9):
+        for col in xrange(9):
+            cell = request.args.get(str(row) + str(col), '')
+            if cell == "":
+                boardstring += "0"
+            else:
+                boardstring += cell
+    board_array = board.Board.string_to_array(boardstring)
     b = board.Board(board_array)
     solved = str(fill_board(b))
     print 'Solved board is '
