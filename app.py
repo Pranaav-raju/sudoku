@@ -16,9 +16,9 @@ def index():
     except ValueError:
         error = "Board {} is not 81 characters.".format(row1)
         print error
-        return render_template('index.html', error=error)
+        return render_template('grid.html', error=error)
     b = board.Board(board_array)
     solved = str(fill_board(b))
     print 'Solved board is '
     print solved
-    return render_template('index.html', output=solved)
+    return render_template('grid.html', output=solved)
