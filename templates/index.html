@@ -4,12 +4,9 @@
     {% block head %}
     {% endblock %}
 </head>
-    <h1>This will be a Sudoku solver!</h1>
+    <h1>Here is a simple Sudoku solver!</h1>
     <body><p>Enter the numbers of the puzzle here.<br>
-        Use zeroes to mark empty spaces within rows, and leave entire empty rows blank.</p>
+        Use zeroes or empty spaces to mark empty spaces within rows.
         {% block grid %}
         {% endblock %}
-        {% if output is defined %}
-            <p>{{ output }}</p>
-        {% endif %}
     </body>
