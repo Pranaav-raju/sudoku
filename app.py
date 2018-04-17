@@ -9,7 +9,7 @@ app = Flask(__name__)
 def index():
     if not request.args:
         print "Didn't find a request."
-    row1 = request.args.get('row1', '')
+        return render_template('grid.html')
     boardstring = ""
     for row in xrange(9):
         for col in xrange(9):
