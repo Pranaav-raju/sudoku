@@ -48,7 +48,19 @@ textarea {
       {% for box in row %}
       <div class="grid-container">
           {% for cell in box %}
-              <div class="grid-item"><input type="text" name={{ cell }} {% if cell == "00" %} autofocus {% endif %}></div>
+              <div class="grid-item"><input type="text" oninput="check(this)" name={{ cell }} {% if cell == "00" %} autofocus {% endif %}>
+              <script>
+              function check(input) {
+                if (input.value != "" &&
+                    !(["1", "2", "3", "4", "5", "6", "7", "8", "9"].includes(input.value))) {
+                  input.setCustomValidity('Please enter a number in the range 1-9.');
+                } else {
+                  // input is fine -- reset the error message
+                    input.setCustomValidity('');
+                  }
+              }
+              </script>
+              </div>
           {%- endfor %}
       </div>
       {%- endfor %}
