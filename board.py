@@ -1,4 +1,5 @@
 from math import sqrt
+import itertools
 
 # This program only handles 9x9 standard-sized boards
 BOARD_SIZE = 9
@@ -29,6 +30,25 @@ class Board(object):
 
     def __str__(self):
         return "\n".join(" ".join(str(x) for x in row) for row in self.board)
+
+    def to_dict(self):
+        """Returns a dictionary of this Board's values.
+
+        Format:
+            board_dict["00"] returns the number at row 0, column 0.
+
+        Unfilled positions have values of 0.
+        """
+        # Length 2 strings for all positions 00-88
+        # Not using range(89) because of zero padding for first row
+        allpos = itertools.product(xrange(9), repeat=2)
+        board_dict = {str(x) + str(y):0 for x, y in allpos}
+        for row in xrange(BOARD_SIZE):
+            for col in xrange(BOARD_SIZE):
+                cell_value = self.board[row][col]
+                if cell_value:
+                    board_dict[str(row) + str(col)] = cell_value
+        return board_dict
 
     @staticmethod
     def string_to_array(board_string):
