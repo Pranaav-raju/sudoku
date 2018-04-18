@@ -1,7 +1,7 @@
 from flask import Flask, url_for, request
 from flask import render_template
 import board
-from solver import fill_board
+from solver import solve
 
 app = Flask(__name__)
 
@@ -20,7 +20,7 @@ def index():
                 boardstring += cell
     board_array = board.Board.string_to_array(boardstring)
     b = board.Board(board_array)
-    solved = str(fill_board(b))
-    print 'Solved board is '
+    solved = solve(b)
+    print 'Solved board is'
     print solved
-    return render_template('grid.html', output=solved)
+    return render_template('result.html', output=solved.to_dict())

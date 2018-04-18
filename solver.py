@@ -1,6 +1,7 @@
 from collections import namedtuple
 import copy
 
+# TODO: Is the below still true?
 # TODO: The board gets solved, but then visits the last position twice. Why?
 
 # A move has a row, column, and other options to play instead
@@ -11,39 +12,6 @@ def _find_empty_spots(board):
     for row in xrange(9):
         spots.extend([(row, col) for col in xrange(9) if not board.board[row][col]])
     return spots
-
-def count_solutions(board):
-    """
-    Counts the number of solutions for this board, up to 2.
-
-    If the count is 0, the board cannot be solved from the current configuration.
-
-    This function aborts counting after 2 solutions are found.
-
-    Returns:
-        One of the integers 0, 1, or 2.
-    """
-    # Fill in all single-solution positions and check for unwinnable positions
-    if not _fill_simple(board):
-        return 0 # Unwinnable position
-    for row, col in _find_empty_spots(board):
-        # Keep track of solutions from each position; there should be
-        #   multiple valid plays in different positions,
-        #   since _fill_simple handled the zero and single move cases.
-        solutions = 0 
-        for move in board.valid_moves(row, col):
-            board_copy = copy.deepcopy(board)
-            # Make the move on this board, but don't keep all the changes
-            #    made by the recursive calls from here
-            board_copy.board[row][col] = move
-            if fill_board(board_copy):
-                # If it's possible to fill the board after making this move,
-                #   consider this move a valid solution
-                solutions += 1
-                if solutions >= 2:
-                    return solutions
-    # If solutions never reached more than 1, there is only one solution for the board
-    return 1
 
 def _fill_simple(board):
     '''Fills all the spots on the board that only have one possible move.'''
@@ -62,6 +30,22 @@ def _fill_simple(board):
         if not set_value:
             # The board is valid, but no more spaces can be filled this way
             return board
+
+def solve(board):
+    """
+    Checks if board is valid, then solves if so.
+
+    Returns:
+        The solved board object if the board is valid and solvable.
+        If the board is valid but not solvable, returns None.
+
+    Raises:
+        ValueError: The board has duplicate values in a row, column, or box.
+    """
+    # fill_board won't build an invalid board, so only check the initial board
+    if not board._is_valid_board():
+        raise ValueError("This board has duplicate values.")
+    return fill_board(board)
 
 # Recursive move searcher and implementer
 def fill_board(board):
