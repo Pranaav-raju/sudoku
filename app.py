@@ -1,6 +1,6 @@
 from flask import Flask, url_for, request
 from flask import render_template
-import board
+from board import Board
 from solver import solve
 
 app = Flask(__name__)
@@ -10,17 +10,15 @@ def index():
     if not request.args:
         print "Didn't find a request."
         return render_template('grid.html')
-    boardstring = ""
+    board_letters = []
     for row in xrange(9):
         for col in xrange(9):
             cell = request.args.get(str(row) + str(col), '')
-            if cell == "":
-                boardstring += "0"
+            if cell == "" or cell == "0":
+                board_letters.append("0")
             else:
-                boardstring += cell
-    board_array = board.Board.string_to_array(boardstring)
-    b = board.Board(board_array)
+                board_letters.append(cell)
+    board_array = Board.string_to_array("".join(board_letters))
+    b = Board(board_array)
     solved = solve(b)
-    print 'Solved board is'
-    print solved
     return render_template('result.html', output=solved.to_dict())
