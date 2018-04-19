@@ -20,5 +20,8 @@ def index():
                 board_letters.append(cell)
     board_array = Board.string_to_array("".join(board_letters))
     b = Board(board_array)
-    solved = solve(b)
+    try:
+        solved = solve(b)
+    except ValueError:
+        return render_template('grid.html', error="That board has duplicate values; please try entering them manually.")
     return render_template('result.html', output=solved.to_dict())
