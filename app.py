@@ -22,6 +22,7 @@ def index():
     b = Board(board_array)
     try:
         solved = solve(b)
-    except ValueError:
-        return render_template('grid.html', error="That board has duplicate values; please try entering them manually.")
+    except ValueError as e:
+        msg = str(e) + " Please try entering your board values manually."
+        return render_template('grid.html', error=msg)
     return render_template('result.html', output=solved.to_dict())

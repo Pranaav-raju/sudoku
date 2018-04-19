@@ -1,9 +1,6 @@
 from collections import namedtuple
 import copy
 
-# TODO: Is the below still true?
-# TODO: The board gets solved, but then visits the last position twice. Why?
-
 # A move has a row, column, and other options to play instead
 Move = namedtuple('Move', 'row col options')
 
@@ -44,8 +41,46 @@ def solve(board):
     """
     # fill_board won't build an invalid board, so only check the initial board
     if not board._is_valid_board():
-        raise ValueError("This board has duplicate values.")
+        raise ValueError("That board has duplicate values.")
+    solutions = count_solutions(board)
+    if not solutions:
+        raise ValueError("That board has no valid solutions.")
+    elif solutions > 1:
+        raise ValueError("That board has more than one valid solution.")
     return fill_board(board)
+
+def count_solutions(board):
+    """
+    Counts the number of solutions for this board, up to 2.
+
+    If the count is 0, the board cannot be solved from the current configuration.
+
+    This function aborts counting after 2 solutions are found.
+
+    Returns:
+        One of the integers 0, 1, or 2.
+    """
+    # Fill in all single-solution positions and check for unwinnable positions
+    if not _fill_simple(board):
+        return 0 # Unwinnable position
+    for row, col in _find_empty_spots(board):
+        # Keep track of solutions from each position; there should be
+        #   multiple valid plays in different positions,
+        #   since _fill_simple handled the zero and single move cases.
+        solutions = 0
+        for move in board.valid_moves(row, col):
+            board_copy = copy.deepcopy(board)
+            # Make the move on this board, but don't keep all the changes
+            #    made by the recursive calls from here
+            board_copy.board[row][col] = move
+            if fill_board(board_copy):
+                # If it's possible to fill the board after making this move,
+                #   consider this move a valid solution
+                solutions += 1
+                if solutions >= 2:
+                    return solutions
+    # If solutions never reached more than 1, there is only one solution for the board
+    return 1
 
 # Recursive move searcher and implementer
 def fill_board(board):
