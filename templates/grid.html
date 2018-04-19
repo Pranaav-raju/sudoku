@@ -1,21 +1,28 @@
 {% extends "index.html" %}
 {% block head %}
 <style type="text/css">
+
+form {
+  /* Remove spaces between boxes on a line */
+  font-size: 0px;
+}
 .grid-container {
   display: inline-grid;
   grid-template-columns: auto auto auto;
+  margin: auto;
   background-color: #FFFFFF;
-  padding: 10px;
+  border: 3px solid rgba(72, 33, 214, 0.8);
 }
 .grid-item {
-  background-color: rgba(255, 255, 255, 0.8);
+  display: inline-grid;
   border: 1px solid rgba(0, 0, 0, 0.8);
   text-align: center;
 }
 
 input[type=text] {
-    width: 20px;
-    padding: 20px;
+    text-align: center;
+    padding: 10px;
+    width: 30px;
     font-size: 30px;
     background-color: rgba(255, 255, 255, 0.8);
 }
@@ -38,8 +45,7 @@ textarea {
   {% if error is defined %}
   <p><b>{{ error }}</b>
   {% endif %}
-  <p>Enter the numbers of the puzzle here.<br>
-  Use zeroes or empty spaces to mark empty spaces within rows.
+  Enter the numbers of the puzzle here.</p>
   <!-- Cells will get created a single box at a time, so list by box -->
   {% set top_row = [["00", "01", "02", "10", "11", "12", "20", "21", "22"],
                    ["03", "04", "05", "13", "14", "15", "23", "24", "25"],
@@ -55,8 +61,7 @@ textarea {
       {% for box in row %}
       <div class="grid-container">
           {% for cell in box %}
-              <div class="grid-item"><input type="text" name={{ cell }} oninput="check(this, name)" {% if cell == "00" %} autofocus {% endif %}>
-              <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+              <div class="grid-item"><input type="text" name={{ cell }} oninput="check(this, name)" maxlength="1" {% if cell == "00" %} autofocus {% endif %}>
               <script>
                 function getOtherLine(pos) {
                   var fullLine = [];
@@ -144,8 +149,8 @@ textarea {
       </div>
       {%- endfor %}
       <!-- Put every row on a new line-->
-      </p>
+    </br>
   {% endfor %}
-      <p><input type="submit" value="Submit"></p>
+      <input type="submit" value="Submit"></p>
       </form>
 {% endblock %}
