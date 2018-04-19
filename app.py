@@ -7,7 +7,11 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    if not request.args:
+    # If request.args has items, but not 81 of them, it's likely that someone appended
+    #   invalid values to the URL.
+    # It's possible that someone just specified some of the cells and left the rest out
+    #   of the argument list, but I don't see value in catering to that possibility.
+    if not request.args or len(request.args) != 81:
         print "Didn't find a request."
         return render_template('grid.html')
     board_letters = []
