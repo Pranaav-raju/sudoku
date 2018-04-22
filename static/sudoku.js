@@ -58,33 +58,33 @@ function checkBox(pos, form) {
 
 function check(input, cell) {
     if (input.value == "" || input.value == "0") {
-    input.setCustomValidity('');
+        input.setCustomValidity('');
     }
     else if (!(["1", "2", "3", "4", "5", "6", "7", "8", "9"].includes(input.value))) {
-    input.setCustomValidity('Please enter a number in the range 1-9.');
+        input.setCustomValidity('Please enter a number in the range 1-9.');
     } else {
-    let rowValid = checkRow(cell, document.forms[0]);
-    }
-    if (rowValid != undefined) {
-        input.setCustomValidity('This row already contains that number.');
-        return;
-    }
-    let colValid = checkCol(cell, document.forms[0]);
-    if (colValid != undefined) {
-        input.setCustomValidity('This column already contains that number.');
-        return;
-    }
-    let boxValid = checkBox(cell, document.forms[0]);
-    if (boxValid != undefined) {
-        input.setCustomValidity('This box already contains that number.');
-        return;
-    }
-    // Input is fine -- reset the error message
-    input.setCustomValidity('');
-    // Auto advance to last cell (nothing happens if already in bottom right corner)
-    if (input.value.length == 1) {
-        let nextName = $('#' + input.name).data("next");
-        let nextCell = document.forms[0].elements.namedItem(nextName);
-        $(nextCell).focus();
+        let rowValid = checkRow(cell, document.forms[0]);
+        if (rowValid != undefined) {
+            input.setCustomValidity('This row already contains that number.');
+            return;
+        }
+        let colValid = checkCol(cell, document.forms[0]);
+        if (colValid != undefined) {
+            input.setCustomValidity('This column already contains that number.');
+            return;
+        }
+        let boxValid = checkBox(cell, document.forms[0]);
+        if (boxValid != undefined) {
+            input.setCustomValidity('This box already contains that number.');
+            return;
+        }
+        // Input is fine -- reset the error message
+        input.setCustomValidity('');
+        // Auto advance to last cell (nothing happens if already in bottom right corner)
+        if (input.value.length == 1) {
+            let nextName = $('#' + input.name).data("next");
+            let nextCell = document.forms[0].elements.namedItem(nextName);
+            $(nextCell).focus();
+        }
     }
 }
