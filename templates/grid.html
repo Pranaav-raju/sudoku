@@ -57,12 +57,23 @@ textarea {
   {% set bottom_row = [["60", "61", "62", "70", "71", "72", "80", "81", "82"],
                       ["63", "64", "65", "73", "74", "75", "83", "84", "85"],
                       ["66", "67", "68", "76", "77", "78", "86", "87", "88"]] -%}
+  <!-- Next cell to move to after typing in each cell. Typing across the row seems most natural. -->
+  {%- set next_cell = {
+                        '00':'01', '01':'02', '02':'03', '03':'04', '04':'05', '05':'06', '06':'07', '07':'08', '08':'10',
+                        '10':'11', '11':'12', '12':'13', '13':'14', '14':'15', '15':'16', '16':'17', '17':'18', '18':'20',
+                        '20':'21', '21':'22', '22':'23', '23':'24', '24':'25', '25':'26', '26':'27', '27':'28', '28':'30',
+                        '30':'31', '31':'32', '32':'33', '33':'34', '34':'35', '35':'36', '36':'37', '37':'38', '38':'40'
+                     }
+      -%}
+                        <!-- TODO: Stop here for testing, resume if this works -->
   <form>
     {% for row in [top_row, middle_row, bottom_row] %}
       {% for box in row %}
       <div class="grid-container">
           {% for cell in box %}
-              <div class="grid-item"><input type="text" name={{ cell }} oninput="check(this, name)" maxlength="1" {% if cell == "00" %} autofocus {% endif %}>
+              <div class="grid-item">
+                <meta id={{cell}} data-next={{next_cell[cell]}}><input type="text" name={{ cell }} onkeyup="check(this, name)" maxlength="1" {% if cell == "00" %} autofocus {% endif %}>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
               <script>
                 function getOtherLine(pos) {
                   var fullLine = [];
@@ -142,6 +153,11 @@ textarea {
                     }
                     // input is fine -- reset the error message
                     input.setCustomValidity('');
+                    if (input.value.length == 1 && input.name != '88') {
+                      let nextName = $('#' + input.name).data("next");
+                      let nextCell = document.forms[0].elements.namedItem(nextName);
+                      $(nextCell).focus();
+                    }
                   }
               }
               </script>
