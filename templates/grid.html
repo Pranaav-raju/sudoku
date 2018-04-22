@@ -140,6 +140,7 @@ textarea {
                     let rowValid = checkRow(cell, document.forms[0]);
                     if (rowValid != undefined) {
                       input.setCustomValidity('This row already contains that number.');
+                      return;
                     }
                     let colValid = checkCol(cell, document.forms[0]);
                     if (colValid != undefined) {
@@ -151,8 +152,9 @@ textarea {
                       input.setCustomValidity('This box already contains that number.');
                       return;
                     }
-                    // input is fine -- reset the error message
+                    // Input is fine -- reset the error message
                     input.setCustomValidity('');
+                    // Auto advance to last cell (if not already in bottom right corner)
                     if (input.value.length == 1 && input.name != '88') {
                       let nextName = $('#' + input.name).data("next");
                       let nextCell = document.forms[0].elements.namedItem(nextName);
