@@ -91,3 +91,26 @@ function check(input, cell) {
         }
     }
 }
+
+function getCellValue(pos, puzzleString) {
+    if (puzzleString == undefined) {
+        return '';
+    }
+    // Elements beginning in 0 are on the first row and map directly
+    let cellLoc = parseInt(pos);
+    // Positions never end in 9, so every 10th positions is off by one more
+    // Example: "10" = string index 9, "20" = index 18, "30" = index 27
+    cellLoc -= parseInt(pos[0]);
+    let cellValue = puzzleString[cellLoc];
+    if (cellValue == "0") {
+        return '';
+    }
+    return cellValue;
+}
+
+// Fill any non-zero cells specified in the URL
+var puzzString = $('#puzzle').data("input");
+jQuery("input[type='text']").each(function() {
+    var cellValue = getCellValue(this.name, puzzString);
+    this.value = cellValue;
+});
