@@ -7,8 +7,23 @@ form {
   font-size: 0px;
 }
 h1 {
+  font-size: 30px;
+}
+div.puzzle, div.text {
+  display: inline;
   font-size: 20px;
 }
+
+div.puzzle {
+  float: left;
+}
+
+div.text {
+  float: right;
+  margin-top: 10%;
+  margin-right: auto;
+}
+
 .grid-container {
   display: inline-grid;
   grid-template-columns: auto auto auto;
@@ -42,14 +57,9 @@ textarea {
     resize: none;
 }
 </style>
-<h1>Here is a simple Sudoku solver!</h1>
+
 {% endblock %}
 {% block grid %}
-  {% if error is defined and error != '' %}
-  <p><b>{{ error }}</b></p>
-  {% else %}
-  Enter the numbers of the puzzle here.</p>
-  {% endif %}
   <!-- Cells will get created a single box at a time, so list by box -->
   {% set top_row = [["00", "01", "02", "10", "11", "12", "20", "21", "22"],
                    ["03", "04", "05", "13", "14", "15", "23", "24", "25"],
@@ -73,15 +83,15 @@ textarea {
                         '80':'81', '81':'82', '82':'83', '83':'84', '84':'85', '85':'86', '86':'87', '87':'88'
                      }
       -%}
-  <form>
+  <form name="puzzle"><div class="puzzle">
     {% for row in [top_row, middle_row, bottom_row] %}
       {% for box in row %}
       <div class="grid-container">
           {% for cell in box %}
               <div class="grid-item">
-                <meta id={{cell}} data-next={{next_cell[cell]}}><input type="text" name={{ cell }} onkeyup="check(this, name)" maxlength="1" {% if cell == "00" %} autofocus {% endif %}>
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-                <script src="/static/sudoku.js"></script>
+                <script src="static/sudoku.js"></script>
+                <meta id={{cell}} data-next={{next_cell[cell]}}><input type="text" name={{ cell }} onkeyup="check(this, name)" maxlength="1" {% if cell == "00" %} autofocus {% endif %}>
               </div>
           {%- endfor %}
       </div>
@@ -89,6 +99,14 @@ textarea {
       <!-- Put every row on a new line-->
     </br>
   {% endfor %}
-      <input type="submit" value="Submit"></p>
-      </form>
+  </div>
+  <div class="text">
+      <h1>Here is a simple Sudoku solver!</h1>
+      {% if error is defined and error != '' %}
+      <p>{{ error }}</p>
+      {% else %}
+      Enter the numbers of the puzzle here.</p>
+      {% endif %}
+      <input type="submit" value="Submit"></form>
+      </div>
 {% endblock %}
