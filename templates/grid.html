@@ -116,7 +116,7 @@ textarea {
                         '80':'81', '81':'82', '82':'83', '83':'84', '84':'85', '85':'86', '86':'87', '87':'88'
                      }
       -%}
-  <form name="puzzle"><meta id="puzzle" data-input={{puzzle_string}}><div class="puzzle">
+  <form name="puzzle" id="puzzle"><meta id="puzzle" data-input={{puzzle_string}}><div class="puzzle">
     {% for row in [top_row, middle_row, bottom_row] %}
       {% for box in row %}
       <div class="grid-container">
@@ -142,6 +142,6 @@ textarea {
       {% else %}
       Enter the numbers of the puzzle here.</p>
       {% endif %}
-      <p><div id="submitButton" class="submit" onclick="$('form[name=puzzle]').submit()">Submit</div>
+      <p><div id="submitButton" class="submit" onclick="submitForm(puzzle)">Submit</div>
       </div>
 {% endblock %}
