@@ -114,7 +114,7 @@ function submitForm(name) {
       if(inputs[i].type == 'text') {
           var isValid = inputs[i].checkValidity();
           if (!isValid) {
-              console.log(inputs[i].validationMessage);
+              inputs[i].reportValidity();
               return false;
           }
       }
