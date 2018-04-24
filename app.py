@@ -40,21 +40,23 @@ def index():
     digits = set(string.digits)
     BASE_ERROR = "<br>Please try again or enter your board values manually."
     error = '' # Error message to output on page, if there is one
+    puzz_string = ""
     if 'puzzle' in request.args:
-        puzzle_string = request.args.get('puzzle')
-        if len(puzzle_string) > 81:
+        puzz_string = request.args.get('puzzle')
+        if len(puzz_string) > 81:
             error = "Puzzle strings must contain no more than 81 characters. " + BASE_ERROR
-        elif (set(puzzle_string) - digits) != set():
+        elif (set(puzz_string) - digits) != set():
             error = "That string contains non-numeric characters. " + BASE_ERROR
-        elif len(puzzle_string) < 81:
+        elif len(puzz_string) < 81:
             # Pad short string with trailing zeroes
-            puzzle_string += "0" * (81 - len(puzzle_string))
-        board_array = Board.string_to_array(puzzle_string)
+            puzz_string += "0" * (81 - len(puzz_string))
+        board_array = Board.string_to_array(puzz_string)
     else:
         # Any extra arguments are ignored
         success, result_string = build_puzzle_string(request.args)
         if success:
             board_array = Board.string_to_array(result_string)
+            puzz_string = result_string
         else:
             error = result_string + BASE_ERROR
     if not error:
@@ -64,5 +66,5 @@ def index():
         except ValueError as e:
             error = str(e) + " " + BASE_ERROR
     if error: # Different from the above check because solve() might raise an error
-        return render_template('grid.html', error=error)
+        return render_template('grid.html', puzzle_string=puzz_string, error=error)
     return render_template('result.html', output=solved.to_dict())
