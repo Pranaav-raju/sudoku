@@ -122,3 +122,14 @@ function submitForm(name) {
     }
     $(name).submit();
 }
+
+// Don't try to validate and fill cells until page has loaded
+$(function() {
+    // Populate and validate cell input received from URL
+    var puzzString = $('#puzzle').data("input");
+    jQuery("input[type='text']").each(function() {
+        var cellValue = getCellValue(this.name, puzzString);
+        this.value = cellValue;
+        check(this, this.name);
+    });
+});

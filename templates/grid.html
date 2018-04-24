@@ -125,7 +125,7 @@ textarea {
               <div class="grid-item">
                 <meta id={{cell}} data-next={{next_cell[cell]}}>
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-                <script src="static/sudoku.js"></script>
+                <script type="text/javascript" src="static/sudoku.js"></script>
                 <input type="text" name={{ cell }} onkeyup="check(this, name)"
                        maxlength="1" {% if cell == "00" %} autofocus {% endif %} >
               </div>
@@ -137,15 +137,6 @@ textarea {
   {% endfor %}
   </div>
   <script>
-    // Populate and validate cell input received from URL
-  var puzzString = $('#puzzle').data("input");
-  jQuery("input[type='text']").each(function() {
-      var cellValue = getCellValue(this.name, puzzString);
-      this.value = cellValue;
-      //console.log("This is ", this);
-      //console.log("Value is ", this.value);
-      check(this, this.name);
-});
 </script>
   <div class="text">
       <h1>Here is a simple Sudoku solver!</h1>
