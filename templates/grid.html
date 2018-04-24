@@ -117,7 +117,7 @@ textarea {
                         '80':'81', '81':'82', '82':'83', '83':'84', '84':'85', '85':'86', '86':'87', '87':'88'
                      }
       -%}
-  <form name="puzzle" id="puzzle"><meta id="puzzle" data-input={{puzzle_string}}><div class="puzzle">
+  <form name="puzzle"><meta id="puzzle" data-input={{puzzle_string}}><div class="puzzle">
     {% for row in [top_row, middle_row, bottom_row] %}
       {% for box in row %}
       <div class="grid-container">
@@ -136,6 +136,17 @@ textarea {
     </br>
   {% endfor %}
   </div>
+  <script>
+    // Populate and validate cell input received from URL
+  var puzzString = $('#puzzle').data("input");
+  jQuery("input[type='text']").each(function() {
+      var cellValue = getCellValue(this.name, puzzString);
+      this.value = cellValue;
+      //console.log("This is ", this);
+      //console.log("Value is ", this.value);
+      check(this, this.name);
+});
+</script>
   <div class="text">
       <h1>Here is a simple Sudoku solver!</h1>
       {% if error is defined and error != '' %}
