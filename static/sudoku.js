@@ -93,7 +93,7 @@ function check(input, cell) {
 }
 
 function getCellValue(pos, puzzleString) {
-    if (puzzleString == undefined) {
+    if (puzzleString == undefined || puzzleString == "") {
         return '';
     }
     // Elements beginning in 0 are on the first row and map directly
@@ -114,6 +114,7 @@ function submitForm(name) {
       if(inputs[i].type == 'text') {
           var isValid = inputs[i].checkValidity();
           if (!isValid) {
+              // Reproduce browser popup if entered manually
               inputs[i].reportValidity();
               return false;
           }
@@ -121,10 +122,3 @@ function submitForm(name) {
     }
     $(name).submit();
 }
-
-// Fill any non-zero cells specified in the URL
-var puzzString = $('#puzzle').data("input");
-jQuery("input[type='text']").each(function() {
-    var cellValue = getCellValue(this.name, puzzString);
-    this.value = cellValue;
-});
