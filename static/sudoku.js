@@ -58,6 +58,12 @@ function checkBox(pos, formElements) {
     }
 }
 
+function moveToNext(input) {
+    let nextName = $('#' + input.name).data("next");
+    let nextCell = formElements.namedItem(nextName);
+    $(nextCell).focus();
+}
+
 function check(input, cell) {
     if (input.value == "" || input.value == "0") {
         input.setCustomValidity('');
@@ -85,9 +91,7 @@ function check(input, cell) {
         input.setCustomValidity('');
         // Auto advance to last cell (nothing happens if already in bottom right corner)
         if (input.value.length == 1) {
-            let nextName = $('#' + input.name).data("next");
-            let nextCell = formElements.namedItem(nextName);
-            $(nextCell).focus();
+            moveToNext(input);
         }
     }
 }
