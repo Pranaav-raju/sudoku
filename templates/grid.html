@@ -47,14 +47,18 @@
     </br>
   {% endfor %}
   </div>
-  <script>
-</script>
   <div class="text">
-      <h1>Here is a simple Sudoku solver!</h1>
-      {% if error is defined and error != '' %}
-      <p>{{ error|safe }}</p>
+      {% if solved == True %}
+      <h1>Sudoku Solver</h1>
+      <p>Here's the solution to your puzzle!</p>
       {% else %}
-      Enter the numbers of the puzzle here.</p>
+        <script>checkAll()</script>
+        <h1>Here is a simple Sudoku solver!</h1>
+        {% if error is defined and error != '' %}
+        <p>{{ error|safe }}</p>
+        {% else %}
+        Enter the numbers of the puzzle here.</p>
+        {% endif %}
       {% endif %}
       <p><div id="submitButton" class="submit" onclick="submitForm(puzzle)">Submit</div>
       </div>

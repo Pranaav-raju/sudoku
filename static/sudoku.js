@@ -123,6 +123,12 @@ function submitForm(name) {
     $(name).submit();
 }
 
+function checkAll() {
+    jQuery("input[type='text']").each(function() {
+        check(this, this.name);
+    });
+}
+
 // Don't try to validate and fill cells until page has loaded
 $(function() {
     // Populate and validate cell input received from URL
@@ -130,6 +136,5 @@ $(function() {
     jQuery("input[type='text']").each(function() {
         var cellValue = getCellValue(this.name, puzzString);
         this.value = cellValue;
-        check(this, this.name);
     });
 });

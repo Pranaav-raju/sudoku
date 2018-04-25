@@ -67,4 +67,4 @@ def index():
             error = str(e) + " " + BASE_ERROR
     if error: # Different from the above check because solve() might raise an error
         return render_template('grid.html', puzzle_string=puzz_string, error=error)
-    return render_template('result.html', output=solved.to_dict())
+    return render_template('grid.html', puzzle_string=solved.to_puzzle_string(), solved=True)
