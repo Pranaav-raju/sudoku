@@ -4,10 +4,10 @@
  * For example, if pos is 1, the returned list will contain
  *  [0, 2, 3, 4, 5, 6, 7, 8].
  *
- * @param {string}  pos A string of a number in the range 0-8 (inclusive)
+ * @param {string} pos A string of a number in the range 0-8 (inclusive)
  *                      indicating the current position.
  *
- * @return  {array} A list of the other numbers in the set.
+ * @return {array} A list of the other numbers in the set.
 */
 function getOtherLine(pos) {
     var fullLine = [];
@@ -116,6 +116,43 @@ function moveToNext(inputName) {
     $(nextCell).focus();
 }
 
+// Pass in key.code, we want the code, not the keypress itself because we can't mimic that
+function move(inputName, key) {
+    let nextName;
+    switch (key) {
+        case "ArrowRight": // Right arrow
+            // Next values are already defined, so use those
+            nextName = $('#' + inputName).data("next");
+            break;
+        case "ArrowLeft":
+            nextName = parseInt(inputName) - 1;
+            if (nextName % 10 == '9') {
+                // Went to the end of the previous row, so correct the index from x9 to x8
+                nextName -= 1;
+            }
+            if (nextName < 9) {
+                // Went from row 1 to row 0, so correct 'x' to '0x'
+                nextName = "0" + nextName;
+            }
+            break;
+        case "ArrowDown":
+            nextName = parseInt(inputName) + 10;
+            break;
+        case "ArrowUp":
+            nextName = parseInt(inputName) - 10;
+            if (nextName < 9) {
+                // Went from row 1 to row 0, so correct 'x' to '0x'
+                nextName = "0" + nextName;
+            }
+            break;
+    }
+    let nextCell = document.forms[0].elements.namedItem(nextName);
+    if (nextCell != undefined) {
+        // If cell is undefined (up from top row, for example), ignore it
+        $(nextCell).focus();
+    }
+}
+
 /**
  * Perform validity checking on this cell.
  *
@@ -131,7 +168,7 @@ function moveToNext(inputName) {
  * If none of the above conditions are met, set a blank (non) error message
  *  and advance focus to the next cell.
  *
- * @param {HTMLObjectElement} input The cell object to check.
+ * @param {HTMLInputElement} input The cell object to check.
  * @param {string} pos The length-two string representing the current cell location.
  */
 function check(input, pos) {

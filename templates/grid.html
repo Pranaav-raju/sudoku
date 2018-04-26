@@ -28,6 +28,8 @@
                         '80':'81', '81':'82', '82':'83', '83':'84', '84':'85', '85':'86', '86':'87', '87':'88'
                      }
       -%}
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script type="text/javascript" src="static/sudoku.js"></script>
   <form name="puzzle"><meta id="puzzle" data-input={{puzzle_string}}><div class="puzzle">
     {% for row in [top_row, middle_row, bottom_row] %}
       {% for box in row %}
@@ -35,9 +37,7 @@
           {% for cell in box %}
               <div class="grid-item">
                 <meta id={{cell}} data-next={{next_cell[cell]}}>
-                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-                <script type="text/javascript" src="static/sudoku.js"></script>
-                <input type="text" name={{ cell }} tabindex={{ cell }} onkeyup="check(this, name)"
+                <input type="text" name={{ cell }} tabindex={{ cell }} onkeyup="check(this, name); move(name, event.key)"
                        maxlength="1" {% if cell == "00" %} autofocus {% endif %} >
               </div>
           {%- endfor %}
