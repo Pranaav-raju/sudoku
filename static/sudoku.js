@@ -58,9 +58,9 @@ function checkBox(pos, formElements) {
     }
 }
 
-function moveToNext(input) {
-    let nextName = $('#' + input.name).data("next");
-    let nextCell = formElements.namedItem(nextName);
+function moveToNext(inputName) {
+    let nextName = $('#' + inputName).data("next");
+    let nextCell = document.forms[0].elements.namedItem(nextName);
     $(nextCell).focus();
 }
 
@@ -89,9 +89,9 @@ function check(input, cell) {
         }
         // Input is fine -- reset the error message
         input.setCustomValidity('');
-        // Auto advance to last cell (nothing happens if already in bottom right corner)
+        // Auto advance to next cell (nothing happens if already in bottom right corner)
         if (input.value.length == 1) {
-            moveToNext(input);
+            moveToNext(input.name);
         }
     }
 }
@@ -137,6 +137,9 @@ function checkAll() {
 $(function() {
     // Populate and validate cell input received from URL
     var puzzString = $('#puzzle').data("input");
+    if (puzzString == "") {
+        return;
+    }
     jQuery("input[type='text']").each(function() {
         var cellValue = getCellValue(this.name, puzzString);
         this.value = cellValue;
