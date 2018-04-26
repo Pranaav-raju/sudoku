@@ -152,7 +152,7 @@ function check(input, pos) {
             input.setCustomValidity('This column already contains that number.');
             return;
         }
-        let boxValid = checkBox(cell, formElements);
+        let boxValid = checkBox(pos, formElements);
         if (boxValid != undefined) {
             input.setCustomValidity('This box already contains that number.');
             return;
@@ -160,9 +160,7 @@ function check(input, pos) {
         // Input is fine; reset the error message
         input.setCustomValidity('');
         // Auto advance to next cell (nothing happens if already in bottom right corner)
-        if (input.value.length == 1) {
-            moveToNext(input.name);
-        }
+        moveToNext(input.name);
     }
 }
 
