@@ -104,19 +104,17 @@ function checkBox(pos, formElements) {
 }
 
 /**
- * Advance focus to the next cell.
+ * Advance focus to an adjacent cell.
  *
- * Use the item's 'next' value to find its value and move the cursor there.
+ * Move to an adjacent cell based on the arrow key provided.
+ * To move to the next cell in the row, or the beginning of the next row,
+ *  supply "ArrowRight" as key.
  *
  * @param {string} inputName The identifying name for the current position.
+ * @param {string} key The key code for the arrow key pressed.
+ *                      Must be one of "ArrowRight", "ArrowLeft", "ArrowDown", or "ArrowUp".
+ *                      Otherwise, focus will not move.
  */
-function moveToNext(inputName) {
-    let nextName = $('#' + inputName).data("next");
-    let nextCell = document.forms[0].elements.namedItem(nextName);
-    $(nextCell).focus();
-}
-
-// Pass in key.code, we want the code, not the keypress itself because we can't mimic that
 function move(inputName, key) {
     let nextName;
     switch (key) {
@@ -197,7 +195,7 @@ function check(input, pos) {
         // Input is fine; reset the error message
         input.setCustomValidity('');
         // Auto advance to next cell (nothing happens if already in bottom right corner)
-        moveToNext(input.name);
+        move(input.name, "ArrowRight");
     }
 }
 
