@@ -1,26 +1,4 @@
 /**
- * Get a list of the other elements in this line.
- *
- * For example, if pos is 1, the returned list will contain
- *  [0, 2, 3, 4, 5, 6, 7, 8].
- *
- * @param {string} pos A string of a number in the range 0-8 (inclusive)
- *                      indicating the current position.
- *
- * @return {array} A list of the other numbers in the set.
-*/
-function getOtherLine(pos) {
-    var fullLine = [];
-    var target = parseInt(pos);
-    for (var i = 0; i < 9; i++) {
-        if (i != target) {
-            fullLine.push(i);
-        }
-    }
-    return fullLine;
-}
-
-/**
  * Search this row for duplicate elements.
  *
  * Check the rest of the row for elements that share this value.
@@ -32,11 +10,13 @@ function getOtherLine(pos) {
  *                  or undefined if no duplicates are found.
  */
 function checkRow(pos, formElements) {
-    // Return duplicate's location
     let rowNum = pos[0];
-    let cols = getOtherLine(pos[1]);
+    let currCol = pos[1];
     let cellVal = formElements.namedItem(pos).value;
-    for (let col of cols) {
+    for (let col = 0; col < 9; col++) {
+        if (col == currCol) {
+            continue;
+        }
         if (formElements.namedItem(rowNum + col).value == cellVal) {
             return rowNum + col;
         }
@@ -56,9 +36,12 @@ function checkRow(pos, formElements) {
  */
 function checkCol(pos, formElements) {
     let colNum = pos[1];
-    let rows = getOtherLine(pos[0]);
+    let currRow = pos[0];
     let cellVal = formElements.namedItem(pos).value;
-    for (let row of rows) {
+    for (let row = 0; row < 9; row++) {
+        if (row == currRow) { // Don't trigger on this value itself
+            continue;
+        }
         if (formElements.namedItem(row + colNum).value == cellVal) {
             return row + colNum;
         }
