@@ -5,35 +5,35 @@ from solver import solve
 import string
 
 def build_puzzle_string(request_args):
-    """Returns a tuple of (success, string).
+    """Returns a tuple of (puzzle_string, error_message).
 
     Request_args is a dictionary of the URL request values.
 
-    The first element in the tuple is True iff the string was built without errors.
+    The first element in the tuple is the puzzle string.
     The second element is an error message if there was one,
-        and the puzzle string otherwise.
+        or an empty string otherwise.
+
+    This function does not consider whether the resulting puzzle string
+        is valid or has only a single solution.
     """
     board_letters = []
     digits = set(string.digits)
+    error = ""
     for row in xrange(9):
         for col in xrange(9):
             cell = request_args.get(str(row) + str(col), '')
             if cell == "" or cell == "0":
                 board_letters.append("0")
-            elif cell not in digits:
+            elif cell not in digits: # '0' is in digits, so check that first
                 error = cell + " is not a number in the range 0-9. "
-                return (False, error)
+                board_letters.append("0")
             else:
                 board_letters.append(cell)
-    return (True, "".join(board_letters))
+    return ("".join(board_letters), error)
 
 app = Flask(__name__)
 @app.route('/')
 def index():
-    # If request.args has non-puzzle items, but not 81 of them, it's likely that someone appended
-    #   invalid values to the URL.
-    # It's possible that someone just specified some of the cells and left the rest out
-    #   of the argument list, but I don't see value in catering to that possibility.
     if not request.args:
         print "Didn't find a request."
         return render_template('grid.html')
@@ -52,13 +52,15 @@ def index():
             puzz_string += "0" * (81 - len(puzz_string))
         board_array = Board.string_to_array(puzz_string)
     else:
-        # Any extra arguments are ignored
-        success, result_string = build_puzzle_string(request.args)
-        if success:
-            board_array = Board.string_to_array(result_string)
-            puzz_string = result_string
-        else:
-            error = result_string + BASE_ERROR
+        # Handle cell-by-cell arguments
+        # If request.args has non-puzzle items, but not 81 of them, it seems
+        #   likely that someone appended invalid values to the URL.
+        # build_puzzle_string ignores any extra arguments in the URL.
+        puzz_string, error = build_puzzle_string(request.args)
+        if error:
+            error += BASE_ERROR
+        # Create the rest of the board even if some of it was invalid
+        board_array = Board.string_to_array(puzz_string)
     if not error:
         b = Board(board_array)
         try:
