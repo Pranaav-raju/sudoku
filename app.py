@@ -38,7 +38,7 @@ def index():
         print "Didn't find a request."
         return render_template('grid.html')
     digits = set(string.digits)
-    BASE_ERROR = "<br>Please try again or enter your board values manually."
+    BASE_ERROR = "<br>Please change the numbers and try again."
     error = '' # Error message to output on page, if there is one
     puzz_string = ""
     if 'puzzle' in request.args:
