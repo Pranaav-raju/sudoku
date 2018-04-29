@@ -30,14 +30,14 @@
       -%}
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script type="text/javascript" src="static/sudoku.js"></script>
-  <form name="puzzle"><meta id="puzzle" data-input={{puzzle_string}}><div class="puzzle">
+  <form name="puzzle" autocomplete="off"><meta id="puzzle" data-input={{puzzle_string}}><div class="puzzle">
     {% for row in [top_row, middle_row, bottom_row] %}
       {% for box in row %}
       <div class="grid-container">
           {% for cell in box %}
               <div class="grid-item">
                 <meta id={{cell}} data-next={{next_cell[cell]}}>
-                <input type="text" name={{ cell }} tabindex={{ cell }} onkeyup="check(this, name); move(name, event.key)"
+                <input type="text" autocomplete="off" name={{ cell }} tabindex={{ cell }} onkeyup="check(this, name); move(name, event.key)"
                        maxlength="1" {% if cell == "00" %} autofocus {% endif %} >
               </div>
           {%- endfor %}
