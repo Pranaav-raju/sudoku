@@ -2,11 +2,15 @@
 
 This web app solves Sudoku problems in the browser.
 
+You can find a live version of this site at:
+http://mmweber2.pythonanywhere.com/
+
 Usage:
 
 Visit grid.html and enter your puzzle numbers in the boxes, then click Submit to solve.
-You can use tab or the arrow keys to move around between cells.
-Cells of invalid numbers will be outlined in red.
+You can use tab or the arrow keys to move around between empty cells.
+The program automatically moves to the next cell when you enter a valid number.
+Cells of invalid numbers are outlined in red.
 
 OR
 
