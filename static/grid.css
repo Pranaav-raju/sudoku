@@ -9,17 +9,44 @@ form {
 
 h1 {
     font-size: 30px;
-    margin-top: 10%;
 }
 
-div.puzzle, div.text {
-    display: inline;
-    font-size: 20px;
+/* Elements for full-sized screens */
+@media only screen and (min-width: 1045px) {
+    h1 {
+        margin-top: 10%;
+    }
+    div.puzzle, div.text {
+        display: inline;
+        font-size: 20px;
+    }
+    div.puzzle {
+        float: left;
+        width: 40%;
+    }
+    div.text {
+        float: right;
+        text-align: center;
+        width: 60%;
+        margin-right: auto;
+    }
 }
 
-div.puzzle {
-    float: left;
-    width: 40%;
+/* Elements for mobile and other small screens */
+@media only screen and (max-width: 1044px) {
+    div.puzzle {
+        float: center;
+        width: 100%;
+    }
+    div.puzzle, div.text {
+        font-size: 20px;
+    }
+    div.text {
+        text-align: center;
+        width: 100%;
+        margin-right: auto;
+        margin-bottom: 5%;
+    }
 }
 
 div.submit {
@@ -38,13 +65,7 @@ div.submit:hover {
       background-color: rgb(74, 74, 206);
 }
 
-div.text {
-    float: right;
-    margin-top: 10%;
-    text-align: center;
-    width: 60%;
-    margin-right: auto;
-}
+
 
 .grid-container {
     display: inline-grid;

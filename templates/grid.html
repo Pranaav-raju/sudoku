@@ -2,8 +2,8 @@
 {% block head %}
 <link href='https://fonts.googleapis.com/css?family=ABeeZee' rel='stylesheet'>
 <link href="static/grid.css" rel="stylesheet" type="text/css">
-
 {% endblock %}
+
 {% block grid %}
   <!-- Cells will get created a single box at a time, so list by box -->
   {% set top_row = [["00", "01", "02", "10", "11", "12", "20", "21", "22"],
@@ -30,24 +30,6 @@
       -%}
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script type="text/javascript" src="static/sudoku.js"></script>
-  <form name="puzzle" autocomplete="off"><meta id="puzzle" data-input={{puzzle_string}}><div class="puzzle">
-    <!-- Container to hold the entire puzzle so lines aren't split on resize -->
-    <div class="grid-container">
-    {% for row in [top_row, middle_row, bottom_row] %}
-      {% for box in row %}
-      <div class="grid-container">
-          {% for cell in box %}
-              <div class="grid-item">
-                <meta id={{cell}} data-next={{next_cell[cell]}}>
-                <input type="text" autocomplete="off" name={{ cell }} tabindex={{ cell }} onkeyup="check(this, name); move(name, event.key)"
-                       maxlength="1" {% if cell == "00" %} autofocus {% endif %} >
-              </div> <!-- End cell div -->
-          {%- endfor %}
-      </div> <!-- End box div -->
-      {%- endfor %}
-  {% endfor %}
-    </div> <!-- End outer container div -->
-  </div>
   <div class="text">
       {% if solved == True %}
       <h1>Sudoku Solver</h1>
@@ -62,5 +44,23 @@
         {% endif %}
       {% endif %}
       <p><div id="submitButton" class="submit" onclick="submitForm(puzzle)">Submit</div>
+      </div>
+      <form name="puzzle" autocomplete="off"><meta id="puzzle" data-input={{puzzle_string}}><div class="puzzle">
+        <!-- Container to hold the entire puzzle so lines aren't split on resize -->
+        <div class="grid-container">
+        {% for row in [top_row, middle_row, bottom_row] %}
+          {% for box in row %}
+          <div class="grid-container">
+              {% for cell in box %}
+                  <div class="grid-item">
+                    <meta id={{cell}} data-next={{next_cell[cell]}}>
+                    <input type="text" autocomplete="off" name={{ cell }} tabindex={{ cell }} onkeyup="check(this, name); move(name, event.key)"
+                           maxlength="1" {% if cell == "00" %} autofocus {% endif %} >
+                  </div> <!-- End cell div -->
+              {%- endfor %}
+          </div> <!-- End box div -->
+          {%- endfor %}
+      {% endfor %}
+        </div> <!-- End outer container div -->
       </div>
 {% endblock %}
