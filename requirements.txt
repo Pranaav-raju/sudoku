@@ -11,8 +11,6 @@ jsonify
 requests
 tensorflow-cpu
 streamlit
-numpy
 pandas
-matplotlib
-scikit-learn
+python
 
