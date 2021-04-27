@@ -11,6 +11,5 @@ jsonify
 requests
 tensorflow-cpu
 streamlit
-pandas
 python
 
